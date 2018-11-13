@@ -3,4 +3,4 @@
 
 This is a work in progress, not ready for production environments yet.
 
-Important: This is not an official SDK from Akamai Technologies.
+**Important**: This is **NOT** an official SDK from Akamai Technologies.
