@@ -25,17 +25,17 @@ use Akamai\Sdk\Repository\MSL\v3\StreamRepositoryMSLv3;
 use Akamai\Sdk\Repository\MSL\v3\DomainRepositoryMSLv3;
 use Akamai\Sdk\Repository\MSL\v3\EventRepositoryMSLv3;
 use Mr\Bootstrap\Data\XmlEncoder;
+use Akamai\Sdk\Service\MSLv3Service;
 
 
 /**
  * SDK
  * 
- * @method static PAPIService[] getPAPIService($contractId = null, $groupId = null)
- * @method static Contract[] getContracts
- * @method static Stream[] getStreams
- * @method static DomainMSLv3[] getDomainsMSLv3()
- * @method static DomainMSLv3 getDomainMSLv3()
- * @method static Group[] getGroups
+ * @method static PAPIService      getPAPIService($contractId = null, $groupId = null)
+ * @method static MSLv3Service     getMSLv3Service()
+ * @method static Contract[]       getContracts
+ * @method static Stream[]         getStreams
+ * @method static Group[]          getGroups
  * @method static CustomBehavior[] getCustomBehaviors
  *
  * Class Sdk
@@ -113,10 +113,18 @@ class Sdk implements ContainerAccessorInterface
             ],
             // Services
             PAPIService::class => [
-                'single' => false,
+                'single' => true,
                 'class' => PAPIService::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_rest_client'),
+                    'options' => []
+                ]
+            ],
+            MSLv3Service::class => [
+                'single' => true,
+                'class' => MSLv3Service::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_xml_client'),
                     'options' => []
                 ]
             ],
@@ -272,6 +280,11 @@ class Sdk implements ContainerAccessorInterface
         return $this->_get(PAPIService::class, compact('contractId', 'groupId'));
     }
 
+    protected function _getMSLv3Service($contractId = null, $groupId = null)
+    {
+        return $this->_get(MSLv3Service::class);
+    }
+
     /**
      * @return Contract[]
      */
@@ -286,17 +299,7 @@ class Sdk implements ContainerAccessorInterface
     protected function _getStreams()
     {
         return $this->_get(StreamRepository::class)->all();
-    }
-
-    protected function _getDomainsMSLv3()
-    {
-        return $this->_get(DomainRepositoryMSLv3::class)->all();
-    }
-
-    protected function _getDomainMSLv3($hostname)
-    {
-        return $this->_get(DomainRepositoryMSLv3::class)->get($hostname);
-    }
+    }    
 
     protected function _getGroups()
     {
