@@ -1,11 +1,13 @@
 {
     "name": "mobilerider/akamai-php-sdk",
     "type": "library",
-    "description": "PHP SDK for Akamai {Open} API",
+    "description": "PHP SDK for Akamai {Open} APIs",
     "version": "0.1.0-alpha.1",
     "keywords": ["akamai", "api", "live", "stream", "media", "delivery", "msl", "papi"],
-    "homepage": "http://www.mobilerider.com/",
+    "homepage": "https://developer.akamai.com/api",
     "license": "MIT",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "authors": [
         {
             "name": "Michel Perez",
@@ -14,13 +16,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Akamai\\Sdk\\": "src/",
-            "Akamai\\SdkTest\\": "tests/"
+            "Akamai\\Sdk\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Akamai\\AnalyticsTest\\": "tests/"
+            "Akamai\\SdkTests\\": "tests/"
         }
     },
     "repositories": [
@@ -42,6 +43,5 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^6.2"
-    },
-    "minimum-stability": "dev"
+    }
 }
