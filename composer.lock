@@ -4,96 +4,41 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5628e08a6bead3620a3b62c6472fd7df",
+    "content-hash": "ab8e82bd57c0a08e603160f643d6d27b",
     "packages": [
         {
-            "name": "akamai-open/edgegrid-auth",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/akamai/AkamaiOPEN-edgegrid-php.git",
-                "reference": "7ff4d64153cf432bacfa3ffd70393bea3a930f36"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/akamai/AkamaiOPEN-edgegrid-php/zipball/7ff4d64153cf432bacfa3ffd70393bea3a930f36",
-                "reference": "7ff4d64153cf432bacfa3ffd70393bea3a930f36",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^1.9",
-                "kherge/box": "^2.5",
-                "phpunit/phpunit": "~4.7",
-                "squizlabs/php_codesniffer": "^2.3"
-            },
-            "suggest": {
-                "akamai-open/edgegrid-client": "Provide a fully featured HTTP client & CLI pre-configured with EdgeGrid authentication. (PHP 5.5+)"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Akamai\\Open\\EdgeGrid\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Davey Shafik",
-                    "email": "dshafik@akamai.com"
-                }
-            ],
-            "description": "Implements the Akamai {OPEN} EdgeGrid Authentication specified by https://developer.akamai.com/introduction/Client_Auth.html",
-            "homepage": "https://github.com/akamai-open/AkamaiOPEN-edgegrid-php",
-            "keywords": [
-                "Authentication",
-                "akamai",
-                "edgegrid",
-                "open"
-            ],
-            "time": "2017-09-01T07:02:30+00:00"
-        },
-        {
             "name": "akamai-open/edgegrid-client",
-            "version": "1.0.0",
+            "version": "0.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/akamai/AkamaiOPEN-edgegrid-php-client.git",
-                "reference": "a368473f0f73fab96ffee03ee40d2f18694ff526"
+                "url": "https://github.com/akamai-open/AkamaiOPEN-edgegrid-php-client.git",
+                "reference": "f3ea18cb9855404a2771ee24bb703b14ca973b6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/akamai/AkamaiOPEN-edgegrid-php-client/zipball/a368473f0f73fab96ffee03ee40d2f18694ff526",
-                "reference": "a368473f0f73fab96ffee03ee40d2f18694ff526",
+                "url": "https://api.github.com/repos/akamai-open/AkamaiOPEN-edgegrid-php-client/zipball/f3ea18cb9855404a2771ee24bb703b14ca973b6b",
+                "reference": "f3ea18cb9855404a2771ee24bb703b14ca973b6b",
                 "shasum": ""
             },
             "require": {
-                "akamai-open/edgegrid-auth": "^1.0.0",
-                "guzzlehttp/guzzle": "^6.1.1",
-                "league/climate": "~3.2",
+                "guzzlehttp/guzzle": "~6.0",
                 "monolog/monolog": "^1.15",
                 "php": ">=5.5",
                 "psr/log": "^1.0"
             },
             "require-dev": {
-                "apigen/apigen": "^4.0.0",
-                "friendsofphp/php-cs-fixer": "^1.9",
+                "fabpot/php-cs-fixer": "^1.9",
                 "kherge/box": "^2.5",
+                "phploc/phploc": "^2.1",
                 "phpunit/phpunit": "~4.7",
-                "squizlabs/php_codesniffer": "^2.3"
+                "squizlabs/php_codesniffer": "^2.3",
+                "theseer/phpdox": "~0.8"
             },
-            "bin": [
-                "bin/http"
-            ],
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Akamai\\Open\\EdgeGrid\\": "src/"
+                    "Akamai\\Open\\EdgeGrid\\": "src/",
+                    "Monolog\\": "src/Monolog"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -107,15 +52,13 @@
                 }
             ],
             "description": "Implements the Akamai {OPEN} EdgeGrid Authentication specified by https://developer.akamai.com/introduction/Client_Auth.html",
-            "homepage": "https://github.com/akamai-open/AkamaiOPEN-edgegrid-php",
+            "homepage": "https://github.com/akamai-open/edgegrid-auth-php",
             "keywords": [
-                "Authentication",
                 "akamai",
-                "client",
                 "edgegrid",
                 "open"
             ],
-            "time": "2017-09-01T07:23:52+00:00"
+            "time": "2015-07-21T18:42:52+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -297,67 +240,6 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
-        },
-        {
-            "name": "league/climate",
-            "version": "3.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/climate.git",
-                "reference": "d657a19837c1f79a891381fb128b755aa3386381"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/climate/zipball/d657a19837c1f79a891381fb128b755aa3386381",
-                "reference": "d657a19837c1f79a891381fb128b755aa3386381",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6|^7.0",
-                "psr/log": "^1.0",
-                "seld/cli-prompt": "^1.0"
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "^1.4",
-                "mockery/mockery": "^1.0",
-                "phpunit/phpunit": "^5.7.16"
-            },
-            "suggest": {
-                "ext-mbstring": "If ext-mbstring is not available you MUST install symfony/polyfill-mbstring"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "League\\CLImate\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Craig Duncan",
-                    "email": "git@duncanc.co.uk",
-                    "homepage": "https://github.com/duncan3dc",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Joe Tannenbaum",
-                    "email": "hey@joe.codes",
-                    "homepage": "http://joe.codes/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP's best friend for the terminal. CLImate allows you to easily output colored text, special formats, and more.",
-            "keywords": [
-                "cli",
-                "colors",
-                "command",
-                "php",
-                "terminal"
-            ],
-            "time": "2018-04-29T16:43:54+00:00"
         },
         {
             "name": "m1ch3lp3r3z/laravel-helpers",
@@ -628,54 +510,6 @@
                 "psr-3"
             ],
             "time": "2016-10-10T12:19:37+00:00"
-        },
-        {
-            "name": "seld/cli-prompt",
-            "version": "1.0.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Seldaek/cli-prompt.git",
-                "reference": "a19a7376a4689d4d94cab66ab4f3c816019ba8dd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/cli-prompt/zipball/a19a7376a4689d4d94cab66ab4f3c816019ba8dd",
-                "reference": "a19a7376a4689d4d94cab66ab4f3c816019ba8dd",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Seld\\CliPrompt\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be"
-                }
-            ],
-            "description": "Allows you to prompt for user input on the command line, and optionally hide the characters they type",
-            "keywords": [
-                "cli",
-                "console",
-                "hidden",
-                "input",
-                "prompt"
-            ],
-            "time": "2017-03-18T11:32:45+00:00"
         }
     ],
     "packages-dev": [
