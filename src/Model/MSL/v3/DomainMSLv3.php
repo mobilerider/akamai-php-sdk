@@ -44,6 +44,16 @@ class DomainMSLv3 extends \Mr\Bootstrap\Model\BaseModel
         return $this->streamRepository;
     }
 
+    /**
+     * Returns configuration reporting cp code
+     *
+     * @return int
+     */
+    public function getCpCode()
+    {
+        return $this->{'configuration-details'}['reporting-cpcode'];
+    }
+
     public function getHostName()
     {
         return $this->{'configuration-details'}['hostname'];
