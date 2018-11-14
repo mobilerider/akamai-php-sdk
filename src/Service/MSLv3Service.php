@@ -9,13 +9,26 @@ use Akamai\Sdk\Model\MSL\v3\DomainMSLv3;
 class MSLv3Service extends BaseHttpService
 {
     /**
+     * Cached domains
+     *
+     * @var v
+     */
+    protected $domains;
+
+    /**
      * Returns all MSLv3 domains
      *
      * @return DomainMSLv3[]
      */
-    public function getDomainsMSLv3()
+    public function getDomainsMSLv3($refresh = false)
     {
-        return $this->_get(DomainRepositoryMSLv3::class)->all();
+        if (is_null($this->domains) || $refresh) {
+            $this->domains = $this->_get(
+                DomainRepositoryMSLv3::class
+            )->all();
+        }
+
+        return $this->domains;
     }
 
     /**
@@ -39,13 +52,13 @@ class MSLv3Service extends BaseHttpService
      * 
      * @return DomainMSLv3|null
      */
-    public function findDomainByCpCodeMSLv3($cpCode)
+    public function findDomainByCpCodeMSLv3($cpCode, $refresh = false)
     {
         if (! $cpCode || ! is_numeric($cpCode)) {
             throw new \InvalidArgumentException('Invalid cp code');
         }
 
-        $domains = $this->getDomainsMSLv3();
+        $domains = $this->getDomainsMSLv3($refresh);
 
         for ($i = count($domains) - 1; $i >= 0; $i--) {
             $domain = $domains[$i];
