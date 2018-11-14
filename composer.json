@@ -38,7 +38,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "akamai-open/edgegrid-client": "~1.0",
+        "akamai-open/edgegrid-client": "~0.3.0",
         "mobilerider/mobilerider-php-bootstrap": "*"
     },
     "require-dev": {
