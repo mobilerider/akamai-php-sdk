@@ -24,6 +24,10 @@ class DomainRepositoryMSLv3 extends AbstractAkamaiRepository
 
     public function parseMany(array $data, array &$metadata = [])
     {
+        if (! $data) {
+            return [];
+        }
+
         $items = $data[$this->getResource()];
 
         // When XML format if only one item our decoder returns 
