@@ -104,7 +104,7 @@ class Sdk implements ContainerAccessorInterface
                 'single' => true,
                 'class' => Client::class,
                 'arguments' => [
-                    $httpOptions,
+                    $httpRestOptions,
                     $auth,
                     \mr_srv_arg(JsonEncoder::class)
                 ]
