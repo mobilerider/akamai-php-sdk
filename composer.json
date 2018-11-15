@@ -2,7 +2,7 @@
     "name": "mobilerider/akamai-php-sdk",
     "type": "library",
     "description": "PHP SDK for Akamai {Open} APIs",
-    "version": "0.1.0-alpha.5",
+    "version": "0.1.0-alpha.6",
     "keywords": ["akamai", "api", "live", "stream", "media", "delivery", "msl", "papi"],
     "homepage": "https://developer.akamai.com/api",
     "license": "MIT",
