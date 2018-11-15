@@ -26,6 +26,7 @@ use Akamai\Sdk\Repository\MSL\v3\DomainRepositoryMSLv3;
 use Akamai\Sdk\Repository\MSL\v3\EventRepositoryMSLv3;
 use Mr\Bootstrap\Data\XmlEncoder;
 use Akamai\Sdk\Service\MSLv3Service;
+use Akamai\Sdk\Http\AkamaiQueryBuilder;
 
 
 /**
@@ -84,6 +85,10 @@ class Sdk implements ContainerAccessorInterface
             $httpOptions
         );
 
+        $repositoryOptions = [
+            'queryBuilderClass' => AkamaiQueryBuilder::class
+        ];
+
         $definitions = [
             JsonEncoder::class => [
                 'single' => false,
@@ -134,7 +139,7 @@ class Sdk implements ContainerAccessorInterface
                 'class' => ContractRepository::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_rest_client'),
-                    'options' => []
+                    'options' => $repositoryOptions
                 ]
             ],
             StreamRepository::class => [
@@ -142,7 +147,7 @@ class Sdk implements ContainerAccessorInterface
                 'class' => StreamRepository::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_rest_client'),
-                    'options' => []
+                    'options' => $repositoryOptions
                 ]
             ],
             GroupRepository::class => [
@@ -150,7 +155,7 @@ class Sdk implements ContainerAccessorInterface
                 'class' => GroupRepository::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_rest_client'),
-                    'options' => []
+                    'options' => $repositoryOptions
                 ]
             ],
             CustomBehaviorRepository::class => [
@@ -166,7 +171,7 @@ class Sdk implements ContainerAccessorInterface
                 'class' => DomainRepositoryMSLv3::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_xml_client'),
-                    'options' => []
+                    'options' => $repositoryOptions
                 ]
             ],
             StreamRepositoryMSLv3::class => [
@@ -174,7 +179,7 @@ class Sdk implements ContainerAccessorInterface
                 'class' => StreamRepositoryMSLv3::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_xml_client'),
-                    'options' => []
+                    'options' => $repositoryOptions
                 ]
             ],
             EventRepositoryMSLv3::class => [
@@ -182,7 +187,7 @@ class Sdk implements ContainerAccessorInterface
                 'class' => EventRepositoryMSLv3::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_xml_client'),
-                    'options' => []
+                    'options' => $repositoryOptions
                 ]
             ],
             // Models
