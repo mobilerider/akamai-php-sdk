@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab8e82bd57c0a08e603160f643d6d27b",
+    "content-hash": "77ce6870a2a7c59448dfedda7654bbcc",
     "packages": [
         {
             "name": "akamai-open/edgegrid-client",
@@ -59,6 +59,61 @@
                 "open"
             ],
             "time": "2015-07-21T18:42:52+00:00"
+        },
+        {
+            "name": "beberlei/assert",
+            "version": "v3.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beberlei/assert.git",
+                "reference": "e4f4a40a8739e1151d40fd1ed754a3ed37e1f522"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beberlei/assert/zipball/e4f4a40a8739e1151d40fd1ed754a3ed37e1f522",
+                "reference": "e4f4a40a8739e1151d40fd1ed754a3ed37e1f522",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "*",
+                "phpstan/phpstan-shim": "*",
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Assert\\": "lib/Assert"
+                },
+                "files": [
+                    "lib/Assert/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Richard Quadling",
+                    "email": "rquadling@gmail.com",
+                    "role": "Collaborator"
+                }
+            ],
+            "description": "Thin assertion library for input validation in business models.",
+            "keywords": [
+                "assert",
+                "assertion",
+                "validation"
+            ],
+            "time": "2018-10-29T11:13:48+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -286,12 +341,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mobilerider/mobilerider-php-bootstrap.git",
-                "reference": "17e69d0db670c0fd0154d6b80d31005f4edb0ab4"
+                "reference": "09c830f075e7cc4112d647efbce1d44635ef45fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mobilerider/mobilerider-php-bootstrap/zipball/17e69d0db670c0fd0154d6b80d31005f4edb0ab4",
-                "reference": "17e69d0db670c0fd0154d6b80d31005f4edb0ab4",
+                "url": "https://api.github.com/repos/mobilerider/mobilerider-php-bootstrap/zipball/09c830f075e7cc4112d647efbce1d44635ef45fa",
+                "reference": "09c830f075e7cc4112d647efbce1d44635ef45fa",
                 "shasum": ""
             },
             "require": {
@@ -334,7 +389,7 @@
             "keywords": [
                 "mobilerider"
             ],
-            "time": "2018-11-12T22:03:35+00:00"
+            "time": "2018-11-15T06:33:26+00:00"
         },
         {
             "name": "monolog/monolog",
