@@ -2,11 +2,9 @@
 
 namespace Akamai\Sdk\Repository\PAPI;
 
-use Akamai\Sdk\Model\PAPI\Group;
 use Akamai\Sdk\Model\PAPI\Property;
-use Akamai\Sdk\Repository\AbstractAkamaiRepository;
 
-class PropertyRepository extends AbstractAkamaiRepository
+class PropertyRepository extends PAPIBaseRepository
 {
     /**
      * @return mixed
@@ -14,10 +12,5 @@ class PropertyRepository extends AbstractAkamaiRepository
     public function getModelClass()
     {
         return Property::class;
-    }
-
-    public function getResourcePath()
-    {
-        return "papi/{$this->apiVersion}/properties";
     }
 }

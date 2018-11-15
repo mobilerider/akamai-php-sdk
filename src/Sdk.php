@@ -4,14 +4,12 @@ namespace Akamai\Sdk;
 
 use Akamai\Open\EdgeGrid\Authentication;
 use Akamai\Sdk\Http\Client;
-use Akamai\Sdk\Model\Contract;
 use Akamai\Sdk\Model\PAPI\CustomBehavior;
 use Akamai\Sdk\Model\PAPI\Group;
 use Akamai\Sdk\Model\Stream;
 use Akamai\Sdk\Model\MSL\v3\DomainMSLv3;
 use Akamai\Sdk\Model\MSL\v3\StreamMSLv3;
 use Akamai\Sdk\Model\MSL\v3\EventMSLv3;
-use Akamai\Sdk\Repository\ContractRepository;
 use Akamai\Sdk\Repository\PAPI\CustomBehaviorRepository;
 use Akamai\Sdk\Repository\PAPI\GroupRepository;
 use Akamai\Sdk\Repository\StreamRepository;
@@ -26,6 +24,10 @@ use Akamai\Sdk\Repository\MSL\v3\DomainRepositoryMSLv3;
 use Akamai\Sdk\Repository\MSL\v3\EventRepositoryMSLv3;
 use Mr\Bootstrap\Data\XmlEncoder;
 use Akamai\Sdk\Service\MSLv3Service;
+use Akamai\Sdk\Repository\PAPI\ContractRepository;
+use Akamai\Sdk\Model\PAPI\Contract;
+use Akamai\Sdk\Repository\PAPI\ProductRepository;
+use Akamai\Sdk\Model\PAPI\Product;
 use Akamai\Sdk\Http\AkamaiQueryBuilder;
 
 
@@ -142,6 +144,14 @@ class Sdk implements ContainerAccessorInterface
                     'options' => $repositoryOptions
                 ]
             ],
+            ProductRepository::class => [
+                'single' => true,
+                'class' => ProductRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_rest_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
             StreamRepository::class => [
                 'single' => true,
                 'class' => StreamRepository::class,
@@ -163,7 +173,7 @@ class Sdk implements ContainerAccessorInterface
                 'class' => CustomBehaviorRepository::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_rest_client'),
-                    'options' => []
+                    'options' => $repositoryOptions
                 ]
             ],
             DomainRepositoryMSLv3::class => [
@@ -196,6 +206,14 @@ class Sdk implements ContainerAccessorInterface
                 'class' => Contract::class,
                 'arguments' => [
                     'repository' => \mr_srv_arg(ContractRepository::class),
+                    'data' => []
+                ]
+            ],
+            Product::class => [
+                'single' => false,
+                'class' => Product::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(ProductRepository::class),
                     'data' => []
                 ]
             ],
