@@ -29,6 +29,8 @@ use Akamai\Sdk\Model\PAPI\Contract;
 use Akamai\Sdk\Repository\PAPI\ProductRepository;
 use Akamai\Sdk\Model\PAPI\Product;
 use Akamai\Sdk\Http\AkamaiQueryBuilder;
+use Akamai\Sdk\Repository\MSL\v3\CpCodeRepositoryMSLv3;
+use Akamai\Sdk\Model\MSL\v3\CpCodeMSLv3;
 
 
 /**
@@ -184,6 +186,14 @@ class Sdk implements ContainerAccessorInterface
                     'options' => $repositoryOptions
                 ]
             ],
+            CpCodeRepositoryMSLv3::class => [
+                'single' => true,
+                'class' => CpCodeRepositoryMSLv3::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_xml_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
             StreamRepositoryMSLv3::class => [
                 'single' => false,
                 'class' => StreamRepositoryMSLv3::class,
@@ -246,6 +256,14 @@ class Sdk implements ContainerAccessorInterface
                 'class' => DomainMSLv3::class,
                 'arguments' => [
                     'repository' => \mr_srv_arg(DomainRepositoryMSLv3::class),
+                    'data' => []
+                ]
+            ],
+            CpCodeMSLv3::class => [
+                'single' => false,
+                'class' => CpCodeMSLv3::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(CpCodeRepositoryMSLv3::class),
                     'data' => []
                 ]
             ],

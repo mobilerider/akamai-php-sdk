@@ -49,6 +49,16 @@ class DomainMSLv3 extends \Mr\Bootstrap\Model\BaseModel
      *
      * @return int
      */
+    public function getName()
+    {
+        return $this->{'configuration-details'}['configuration-name'];
+    }
+
+    /**
+     * Returns configuration reporting cp code
+     *
+     * @return int
+     */
     public function getCpCode()
     {
         return $this->{'configuration-details'}['reporting-cpcode'];

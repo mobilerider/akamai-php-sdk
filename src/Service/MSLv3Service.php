@@ -5,15 +5,24 @@ namespace Akamai\Sdk\Service;
 use Mr\Bootstrap\Service\BaseHttpService;
 use Akamai\Sdk\Repository\MSL\v3\DomainRepositoryMSLv3;
 use Akamai\Sdk\Model\MSL\v3\DomainMSLv3;
+use Akamai\Sdk\Model\MSL\v3\CpCodeMSLv3;
+use Akamai\Sdk\Repository\MSL\v3\CpCodeRepositoryMSLv3;
 
 class MSLv3Service extends BaseHttpService
 {
     /**
      * Cached domains
      *
-     * @var v
+     * @var DomainMSLv3[]
      */
     protected $domains;
+
+    /**
+     * Cached domains
+     *
+     * @var CpCodeMSLv3[]
+     */
+    protected $cpCodes;
 
     /**
      * Returns all MSLv3 domains
@@ -29,6 +38,22 @@ class MSLv3Service extends BaseHttpService
         }
 
         return $this->domains;
+    }
+
+    /**
+     * Returns all MSLv3 cpCodes
+     *
+     * @return DomainMSLv3[]
+     */
+    public function getCpCodesMSLv3($refresh = false)
+    {
+        if (is_null($this->cpCodes) || $refresh) {
+            $this->cpCodes = $this->_get(
+                CpCodeRepositoryMSLv3::class
+            )->all();
+        }
+
+        return $this->cpCodes;
     }
 
     /**
