@@ -49,6 +49,10 @@ class EventRepositoryMSLv3 extends AbstractAkamaiRepository
 
     public function parseMany(array $data, array &$metadata = [])
     {
+        if (! $data || ! isset($data[$this->getResource()])) {
+            return [];
+        }
+
         $items = $data[$this->getResource()];
 
         // When XML format if only one item our decoder returns 
