@@ -66,10 +66,10 @@ class Sdk implements ContainerAccessorInterface
         $httpDefaultOptions = [
             'base_uri' => $host,
             'handler' => $stack,
-            'timeout' => '60.0',
+            'timeout' => '60.0'
         ];
 
-        $httpRestOptions = $httpDefaultOptions + array_merge(
+        $httpRestOptions = $httpDefaultOptions + array_merge_recursive(
             [
                 'headers' => [
                     'Accept' => 'application/json',
@@ -79,7 +79,7 @@ class Sdk implements ContainerAccessorInterface
             $httpOptions
         );
 
-        $httpXmlOptions = $httpDefaultOptions + array_merge(
+        $httpXmlOptions = $httpDefaultOptions + array_merge_recursive(
             [
                 'headers' => [
                     'Accept' => 'application/xml',
@@ -293,9 +293,10 @@ class Sdk implements ContainerAccessorInterface
         self::$instance = new self($host, $token, $secret, $accessToken, $httpOptions);
     }
 
-    public static function setCredentials($host, $token, $secret, $accessToken)
-    {
-        self::create($host, $token, $secret, $accessToken);
+    public static function setCredentials($host, $token, $secret, $accessToken, 
+        array $httpOptions = []
+    ) {
+        self::create($host, $token, $secret, $accessToken, $httpOptions);
     }
 
     protected static function getInstance()
