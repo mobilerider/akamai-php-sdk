@@ -43,7 +43,7 @@ class MSLv3Service extends BaseHttpService
     /**
      * Returns all MSLv3 cpCodes
      *
-     * @return DomainMSLv3[]
+     * @return CpCodeMSLv3[]
      */
     public function getCpCodesMSLv3($refresh = false)
     {
