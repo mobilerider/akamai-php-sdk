@@ -2,6 +2,8 @@
 
 namespace Akamai\Sdk;
 
+use Mr\Bootstrap\Container;
+
 use Akamai\Open\EdgeGrid\Authentication;
 use Akamai\Sdk\Http\Client;
 use Akamai\Sdk\Model\PAPI\CustomBehavior;
@@ -15,7 +17,6 @@ use Akamai\Sdk\Repository\PAPI\GroupRepository;
 use Akamai\Sdk\Repository\StreamRepository;
 use Akamai\Sdk\Service\PAPIService;
 use GuzzleHttp\HandlerStack;
-use Mr\Bootstrap\Container;
 use Mr\Bootstrap\Data\JsonEncoder;
 use Mr\Bootstrap\Interfaces\ContainerAccessorInterface;
 use Mr\Bootstrap\Traits\ContainerAccessor;
@@ -306,6 +307,16 @@ class Sdk implements ContainerAccessorInterface
         }
 
         return self::$instance;
+    }
+
+    /**
+     * Return SDK global container
+     *
+     * @return Container
+     */
+    public static function getGlobalContainer()
+    {
+        return self::getInstance()->getContainer();
     }
 
     public static function __callStatic($name, $arguments)

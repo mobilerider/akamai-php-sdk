@@ -7,6 +7,7 @@ use Akamai\Sdk\Repository\MSL\v3\DomainRepositoryMSLv3;
 use Akamai\Sdk\Model\MSL\v3\DomainMSLv3;
 use Akamai\Sdk\Model\MSL\v3\CpCodeMSLv3;
 use Akamai\Sdk\Repository\MSL\v3\CpCodeRepositoryMSLv3;
+use Akamai\Sdk\Repository\MSL\v3\StreamRepositoryMSLv3;
 
 class MSLv3Service extends BaseHttpService
 {
@@ -94,5 +95,15 @@ class MSLv3Service extends BaseHttpService
         }
 
         return null;
+    }
+
+    public function getStreamsMSLv3($domain)
+    {
+        return StreamRepositoryMSLv3::getStreams($domain);
+    }
+
+    public function getStreamMSLv3($domain, $id)
+    {
+        return StreamRepositoryMSLv3::getStream($domain, $id);
     }
 }

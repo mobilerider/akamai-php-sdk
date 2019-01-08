@@ -88,4 +88,16 @@ class DomainMSLv3 extends \Mr\Bootstrap\Model\BaseModel
     {
         return $this->getStreamRepository()->all();
     }
+
+    /**
+     * Returns a MSLv3 stream by given id
+     *
+     * @param string $id Stream id
+     * 
+     * @return StreamMSLv3
+     */
+    public function getStreamMSLv3($id)
+    {
+        return $this->getStreamRepository()->get($id);
+    }
 }
