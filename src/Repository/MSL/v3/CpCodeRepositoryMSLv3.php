@@ -38,7 +38,7 @@ class CpCodeRepositoryMSLv3 extends AbstractAkamaiRepository
         $netstorage = $data['netstorage-cpcode-list']['cpcode-list'];
 
         foreach ($netstorage as &$item) {
-            $item['__type'] = 'ns';
+            $item['__type'] = 'storage';
         }
 
         return array_merge($reporting, $netstorage);
