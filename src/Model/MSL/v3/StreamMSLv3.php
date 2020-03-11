@@ -48,6 +48,11 @@ class StreamMSLv3 extends \Mr\Bootstrap\Model\BaseModel
         return $this->domain;
     }
 
+    public function getStorageCpCode()
+    {
+        return $this->{"sg-cpcode"};
+    }
+
     protected function getEventRepository()
     {
         if (is_null($this->eventRepository)) {

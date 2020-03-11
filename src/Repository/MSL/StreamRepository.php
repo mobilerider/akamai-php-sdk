@@ -2,9 +2,9 @@
 
 namespace Akamai\Sdk\Repository\MSL;
 
-use Akamai\Sdk\Model\Stream;
+use Akamai\Sdk\Model\MSL\Stream;
 
-class StreamRepository extends AbstractAkamaiRepository
+class StreamRepository extends MSLRepository
 {
     protected $version = 'v2';
 
@@ -16,8 +16,8 @@ class StreamRepository extends AbstractAkamaiRepository
         return Stream::class;
     }
 
-    public function getResourcePath()
+    public function parseMany(array $data, array &$metadata = [])
     {
-        return "config-media-live/{$this->version}/msl-origin/streams";
+        return $data[mr_plural($this->getResource())];
     }
 }

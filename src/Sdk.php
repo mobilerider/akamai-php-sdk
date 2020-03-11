@@ -8,13 +8,13 @@ use Akamai\Open\EdgeGrid\Authentication;
 use Akamai\Sdk\Http\Client;
 use Akamai\Sdk\Model\PAPI\CustomBehavior;
 use Akamai\Sdk\Model\PAPI\Group;
-use Akamai\Sdk\Model\Stream;
+use Akamai\Sdk\Model\MSL\Stream;
 use Akamai\Sdk\Model\MSL\v3\DomainMSLv3;
 use Akamai\Sdk\Model\MSL\v3\StreamMSLv3;
 use Akamai\Sdk\Model\MSL\v3\EventMSLv3;
 use Akamai\Sdk\Repository\PAPI\CustomBehaviorRepository;
 use Akamai\Sdk\Repository\PAPI\GroupRepository;
-use Akamai\Sdk\Repository\StreamRepository;
+use Akamai\Sdk\Repository\MSL\StreamRepository;
 use Akamai\Sdk\Service\PAPIService;
 use GuzzleHttp\HandlerStack;
 use Mr\Bootstrap\Data\JsonEncoder;
@@ -33,7 +33,17 @@ use Akamai\Sdk\Http\AkamaiQueryBuilder;
 use Akamai\Sdk\Model\CCU\Invalidation;
 use Akamai\Sdk\Repository\MSL\v3\CpCodeRepositoryMSLv3;
 use Akamai\Sdk\Model\MSL\v3\CpCodeMSLv3;
-
+use Akamai\Sdk\Service\MSLService;
+use Akamai\Sdk\Repository\MSL\CpCodeRepository;
+use Akamai\Sdk\Model\MSL\CpCode;
+use Akamai\Sdk\Repository\MSL\MSLContractRepository;
+use Akamai\Sdk\Model\MSL\MSLContract;
+use Akamai\Sdk\Repository\MSL\OriginRepository;
+use Akamai\Sdk\Model\MSL\Origin;
+use Akamai\Sdk\Repository\PAPI\PropertyRepository;
+use Akamai\Sdk\Repository\PAPI\CpCodeRepository as PAPICpCodeRepository;
+use Akamai\Sdk\Model\PAPI\Property;
+use Akamai\Sdk\Model\PAPI\CpCode as PAPICpCode;
 use Akamai\Sdk\Repository\CCU\InvalidationRepository;
 use Akamai\Sdk\Service\FastPurgeService;
 
@@ -41,6 +51,7 @@ use Akamai\Sdk\Service\FastPurgeService;
  * SDK
  * 
  * @method static PAPIService      getPAPIService($contractId = null, $groupId = null)
+ * @method static MSLService       getMSLService()
  * @method static MSLv3Service     getMSLv3Service()
  * @method static FastPurgeService getFastPurgeService()
  * @method static Contract[]       getContracts
@@ -62,7 +73,7 @@ class Sdk implements ContainerAccessorInterface
 
     private function __construct($host, $token, $secret, $accessToken, array $httpOptions = [])
     {
-        $auth = new Authentication;
+        $auth = new Authentication();
         $auth->setAuth($token, $secret, $accessToken);
 
         // Create default handler with all the default middlewares
@@ -70,8 +81,8 @@ class Sdk implements ContainerAccessorInterface
 
         $httpDefaultOptions = [
             'base_uri' => $host,
-            'handler' => $stack,
-            'timeout' => '60.0'
+            // 'handler' => $stack,
+            'timeout' => '120.0'
         ];
 
         $httpRestOptions = $httpDefaultOptions + array_merge_recursive(
@@ -107,7 +118,7 @@ class Sdk implements ContainerAccessorInterface
                 'single' => false,
                 'class' => XmlEncoder::class
             ],
-            'http_rest_client' => [
+            'http_json_client' => [
                 'single' => true,
                 'class' => Client::class,
                 'arguments' => [
@@ -130,7 +141,15 @@ class Sdk implements ContainerAccessorInterface
                 'single' => true,
                 'class' => PAPIService::class,
                 'arguments' => [
-                    'client' => \mr_srv_arg('http_rest_client'),
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => []
+                ]
+            ],
+            MSLService::class => [
+                'single' => true,
+                'class' => MSLService::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_xml_client'),
                     'options' => []
                 ]
             ],
@@ -155,7 +174,7 @@ class Sdk implements ContainerAccessorInterface
                 'single' => true,
                 'class' => ContractRepository::class,
                 'arguments' => [
-                    'client' => \mr_srv_arg('http_rest_client'),
+                    'client' => \mr_srv_arg('http_json_client'),
                     'options' => $repositoryOptions
                 ]
             ],
@@ -163,15 +182,56 @@ class Sdk implements ContainerAccessorInterface
                 'single' => true,
                 'class' => ProductRepository::class,
                 'arguments' => [
-                    'client' => \mr_srv_arg('http_rest_client'),
+                    'client' => \mr_srv_arg('http_json_client'),
                     'options' => $repositoryOptions
                 ]
             ],
+            PropertyRepository::class => [
+                'single' => true,
+                'class' => PropertyRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            PAPICpCodeRepository::class => [
+                'single' => true,
+                'class' => PAPICpCodeRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            // MSL
             StreamRepository::class => [
                 'single' => true,
                 'class' => StreamRepository::class,
                 'arguments' => [
-                    'client' => \mr_srv_arg('http_rest_client'),
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            CpCodeRepository::class => [
+                'single' => true,
+                'class' => CpCodeRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            MSLContractRepository::class => [
+                'single' => true,
+                'class' => MSLContractRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            OriginRepository::class => [
+                'single' => true,
+                'class' => OriginRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
                     'options' => $repositoryOptions
                 ]
             ],
@@ -187,7 +247,15 @@ class Sdk implements ContainerAccessorInterface
                 'single' => true,
                 'class' => CustomBehaviorRepository::class,
                 'arguments' => [
-                    'client' => \mr_srv_arg('http_rest_client'),
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            DomainRepositoryMSL::class => [
+                'single' => true,
+                'class' => DomainRepositoryMSL::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
                     'options' => $repositoryOptions
                 ]
             ],
@@ -248,11 +316,52 @@ class Sdk implements ContainerAccessorInterface
                     'data' => []
                 ]
             ],
+            Property::class => [
+                'single' => false,
+                'class' => Property::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(PropertyRepository::class),
+                    'data' => []
+                ]
+            ],
+            PAPICpCode::class => [
+                'single' => false,
+                'class' => PAPICpCode::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(PAPICpCodeRepository::class),
+                    'data' => []
+                ]
+            ],
+            // MSL
             Stream::class => [
                 'single' => false,
                 'class' => Stream::class,
                 'arguments' => [
                     'repository' => \mr_srv_arg(StreamRepository::class),
+                    'data' => []
+                ]
+            ],
+            CpCode::class => [
+                'single' => false,
+                'class' => CpCode::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(CpCodeRepository::class),
+                    'data' => []
+                ]
+            ],
+            MSLContract::class => [
+                'single' => false,
+                'class' => MSLContract::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(MSLContractRepository::class),
+                    'data' => []
+                ]
+            ],
+            Origin::class => [
+                'single' => false,
+                'class' => Origin::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(OriginRepository::class),
                     'data' => []
                 ]
             ],
@@ -357,18 +466,26 @@ class Sdk implements ContainerAccessorInterface
 
     protected function _getPAPIService($contractId = null, $groupId = null)
     {
-        return $this->_get(PAPIService::class, compact('contractId', 'groupId'));
+        return $this->_get(
+            PAPIService::class, 
+            ["options" => compact('contractId', 'groupId')]
+        );
     }
 
-    protected function _getMSLv3Service($contractId = null, $groupId = null)
+    protected function _getMSLv3Service()
     {
         return $this->_get(MSLv3Service::class);
     }
 
+    protected function _getMSLService()
+    {
+        return $this->_get(MSLService::class);
+    }
     protected function _getFastPurgeService()
     {
         return $this->_get(FastPurgeService::class);
     }
+
     /**
      * @return Contract[]
      */
