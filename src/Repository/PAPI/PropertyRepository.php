@@ -13,4 +13,15 @@ class PropertyRepository extends PAPIBaseRepository
     {
         return Property::class;
     }
+
+    public function parseOne(array $data, array &$metadata = [])
+    {
+        $res = mr_plural($this->getResource());
+
+        if (! isset($data[$res]["items"][0])) {
+            return null;
+        }
+        
+        return $data[$res]["items"][0];
+    }   
 }

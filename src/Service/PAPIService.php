@@ -7,9 +7,12 @@ use Akamai\Sdk\Repository\PAPI\PropertyRepository;
 use Mr\Bootstrap\Interfaces\HttpDataClientInterface;
 use Mr\Bootstrap\Service\BaseHttpService;
 use Akamai\Sdk\Model\PAPI\Contract;
+use Akamai\Sdk\Model\PAPI\Group;
 use Akamai\Sdk\Repository\PAPI\ContractRepository;
 use Assert\Assertion;
 use Akamai\Sdk\Repository\PAPI\ProductRepository;
+use Akamai\Sdk\Repository\PAPI\GroupRepository;
+use Akamai\Sdk\Repository\PAPI\CpCodeRepository;
 
 class PAPIService extends BaseHttpService
 {
@@ -22,6 +25,13 @@ class PAPIService extends BaseHttpService
      * @var Contract[]
      */
     protected $contracts;
+
+    /**
+     * Gropus
+     *
+     * @var Group[]
+     */
+    protected $groups;
 
     public function __construct(HttpDataClientInterface $client, array $options = [])
     {
@@ -49,6 +59,24 @@ class PAPIService extends BaseHttpService
         return $this->contracts;
     }
 
+    /**
+     * List of groups
+     *
+     * @param boolean $refresh
+     * 
+     * @return Group[]
+     */
+    public function getGroups($refresh = false)
+    {
+        if (is_null($this->groups) || $refresh) {
+            $this->groups = $this->_get(
+                GroupRepository::class
+            )->all();
+        }
+
+        return $this->groups;
+    }
+
     public function getProducts($contractId = null)
     {
         $contractId = $contractId ?? $this->contractId;
@@ -62,20 +90,59 @@ class PAPIService extends BaseHttpService
         );
     }
 
-    public function getProperties($filters)
+    public function getProperties($contractId = null, $groupId = null)
     {
         $repository = $this->getRepository(PropertyRepository::class);
 
-        $fq = $repository->resolveFilterQuery($filters);
+        return $repository->all(
+            [
+                'contractId' => $contractId ?: $this->contractId,
+                'groupId' => $groupId ?: $this->groupId
+            ]
+        );
+    }
 
-        if ($this->contractId) {
-            $fq->where('contractId', $this->contractId);
-        }
+    public function getProperty($id, $contractId = null, $groupId = null)
+    {
+        $repository = $this->getRepository(PropertyRepository::class);
 
-        if ($this->groupId) {
-            $fq->where('groupId', $this->groupId);
-        }
+        return $repository->get(
+            $id,
+            [
+                'contractId' => $contractId ?: $this->contractId,
+                'groupId' => $groupId ?: $this->groupId
+            ]
+        );
+    }
 
-        return $repository->all($fq);
+    public function getCpCodes($contractId = null, $groupId = null)
+    {
+        $repository = $this->getRepository(CpCodeRepository::class);
+
+        return $repository->all(
+            [
+                'contractId' => $contractId ?: $this->contractId,
+                'groupId' => $groupId ?: $this->groupId
+            ]
+        );
+    }
+
+    /**
+     * Returns a new instance of CpCode model
+     *
+     * @param array $data
+     * 
+     * @return CpCode
+     */
+    public function createCpCode(array $data, $contractId = null, $groupId = null)
+    {
+        $contractId = $contractId ?: $this->contractId;
+        $groupId = $groupId ?: $this->groupId;
+
+        return $this->_get(
+            CpCodeRepository::class, [
+                "options" => compact("contractId", "groupId")
+            ]
+        )->create($data);
     }
 }
