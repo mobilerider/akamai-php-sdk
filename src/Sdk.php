@@ -30,15 +30,19 @@ use Akamai\Sdk\Model\PAPI\Contract;
 use Akamai\Sdk\Repository\PAPI\ProductRepository;
 use Akamai\Sdk\Model\PAPI\Product;
 use Akamai\Sdk\Http\AkamaiQueryBuilder;
+use Akamai\Sdk\Model\CCU\Invalidation;
 use Akamai\Sdk\Repository\MSL\v3\CpCodeRepositoryMSLv3;
 use Akamai\Sdk\Model\MSL\v3\CpCodeMSLv3;
 
+use Akamai\Sdk\Repository\CCU\InvalidationRepository;
+use Akamai\Sdk\Service\FastPurgeService;
 
 /**
  * SDK
  * 
  * @method static PAPIService      getPAPIService($contractId = null, $groupId = null)
  * @method static MSLv3Service     getMSLv3Service()
+ * @method static FastPurgeService getFastPurgeService()
  * @method static Contract[]       getContracts
  * @method static Stream[]         getStreams
  * @method static Group[]          getGroups
@@ -138,6 +142,14 @@ class Sdk implements ContainerAccessorInterface
                     'options' => []
                 ]
             ],
+            FastPurgeService::class => [
+                'single' => true,
+                'class' => FastPurgeService::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => []
+                ]
+            ],
             // Repositories
             ContractRepository::class => [
                 'single' => true,
@@ -208,6 +220,14 @@ class Sdk implements ContainerAccessorInterface
                 'class' => EventRepositoryMSLv3::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_xml_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            InvalidationRepository::class => [
+                'single' => true,
+                'class' => InvalidationRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
                     'options' => $repositoryOptions
                 ]
             ],
@@ -283,6 +303,13 @@ class Sdk implements ContainerAccessorInterface
                     'repository' => \mr_srv_arg(EventRepositoryMSLv3::class),
                     'data' => []
                 ]
+            Invalidation::class => [
+                'single' => false,
+                'class' => Invalidation::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(InvalidationRepository::class),
+                    'data' => []
+                ]
             ]
         ];
 
@@ -338,6 +365,10 @@ class Sdk implements ContainerAccessorInterface
         return $this->_get(MSLv3Service::class);
     }
 
+    protected function _getFastPurgeService()
+    {
+        return $this->_get(FastPurgeService::class);
+    }
     /**
      * @return Contract[]
      */
