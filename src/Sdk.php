@@ -49,7 +49,7 @@ use Akamai\Sdk\Service\FastPurgeService;
 
 /**
  * SDK
- * 
+ *
  * @method static PAPIService      getPAPIService($contractId = null, $groupId = null)
  * @method static MSLService       getMSLService()
  * @method static MSLv3Service     getMSLv3Service()
@@ -91,7 +91,7 @@ class Sdk implements ContainerAccessorInterface
                     'Accept' => 'application/json',
                     'Content-Type' => 'application/json'
                 ]
-            ], 
+            ],
             $httpOptions
         );
 
@@ -101,7 +101,7 @@ class Sdk implements ContainerAccessorInterface
                     'Accept' => 'application/xml',
                     'Content-Type' => 'application/xml'
                 ]
-            ], 
+            ],
             $httpOptions
         );
 
@@ -412,6 +412,8 @@ class Sdk implements ContainerAccessorInterface
                     'repository' => \mr_srv_arg(EventRepositoryMSLv3::class),
                     'data' => []
                 ]
+                ],
+            
             Invalidation::class => [
                 'single' => false,
                 'class' => Invalidation::class,
@@ -430,7 +432,11 @@ class Sdk implements ContainerAccessorInterface
         self::$instance = new self($host, $token, $secret, $accessToken, $httpOptions);
     }
 
-    public static function setCredentials($host, $token, $secret, $accessToken, 
+    public static function setCredentials(
+        $host,
+        $token,
+        $secret,
+        $accessToken,
         array $httpOptions = []
     ) {
         self::create($host, $token, $secret, $accessToken, $httpOptions);
@@ -467,7 +473,7 @@ class Sdk implements ContainerAccessorInterface
     protected function _getPAPIService($contractId = null, $groupId = null)
     {
         return $this->_get(
-            PAPIService::class, 
+            PAPIService::class,
             ["options" => compact('contractId', 'groupId')]
         );
     }
@@ -500,7 +506,7 @@ class Sdk implements ContainerAccessorInterface
     protected function _getStreams()
     {
         return $this->_get(StreamRepository::class)->all();
-    }    
+    }
 
     protected function _getGroups()
     {
