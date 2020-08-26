@@ -15,6 +15,7 @@ class DataRepository extends QOSRepository
     {
         return Data::class;
     }
+    
     public function getResourcePath()
     {
         $resource = $this->getResource();
