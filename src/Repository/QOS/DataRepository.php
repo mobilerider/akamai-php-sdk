@@ -2,7 +2,7 @@
 
 namespace Akamai\Sdk\Repository\QOS;
 
-use Akamai\Sdk\Model\MSL\Data;
+use Akamai\Sdk\Model\QOS\Data;
 
 class DataRepository extends QOSRepository
 {
@@ -15,9 +15,14 @@ class DataRepository extends QOSRepository
     {
         return Data::class;
     }
-
-    public function parseMany(array $data, array &$metadata = [])
+    public function getResourcePath()
     {
-        return $data[mr_plural($this->getResource())];
+        $resource = $this->getResource();
+
+        return sprintf(
+            "media-analytics/%s/qos-monitor/%s",
+            $this->version,
+            $resource
+        );
     }
 }

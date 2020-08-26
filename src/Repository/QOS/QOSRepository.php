@@ -1,8 +1,7 @@
 <?php
 
-namespace Akamai\Sdk\Repository\MSL;
+namespace Akamai\Sdk\Repository\QOS;
 
-use Akamai\Sdk\Model\MSL\Origin;
 use Akamai\Sdk\Repository\AbstractAkamaiRepository;
 
 abstract class QOSRepository extends AbstractAkamaiRepository
@@ -14,7 +13,7 @@ abstract class QOSRepository extends AbstractAkamaiRepository
         $resource = $this->getResource();
 
         return sprintf(
-            "config-media-live/%s/msl-origin/%s",
+            "media-analytics/%s/qos-monitor/%s",
             $this->version,
             mr_plural($resource)
         );

@@ -46,6 +46,16 @@ use Akamai\Sdk\Model\PAPI\Property;
 use Akamai\Sdk\Model\PAPI\CpCode as PAPICpCode;
 use Akamai\Sdk\Repository\CCU\InvalidationRepository;
 use Akamai\Sdk\Service\FastPurgeService;
+use Akamai\Sdk\Service\QosService;
+use Akamai\Sdk\Repository\QOS\DataRepository;
+use Akamai\Sdk\Repository\QOS\DataStoreRepository;
+use Akamai\Sdk\Repository\QOS\DataSourceRepository;
+use Akamai\Sdk\Repository\QOS\ReportPackRepository;
+use Akamai\Sdk\Repository\QOS\QOSRepository;
+use Akamai\Sdk\Model\QOS\Data;
+use Akamai\Sdk\Model\QOS\DataSource;
+use Akamai\Sdk\Model\QOS\DataReportPack;
+use Akamai\Sdk\Model\QOS\DataStore;
 
 /**
  * SDK
@@ -164,6 +174,14 @@ class Sdk implements ContainerAccessorInterface
             FastPurgeService::class => [
                 'single' => true,
                 'class' => FastPurgeService::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => []
+                ]
+            ],
+            QosService::class => [
+                'single' => true,
+                'class' => QosService::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_json_client'),
                     'options' => []
@@ -299,6 +317,47 @@ class Sdk implements ContainerAccessorInterface
                     'options' => $repositoryOptions
                 ]
             ],
+            //QOS
+            QOSRepository::class => [
+                'single' => true,
+                'class' => QOSRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            ReportPackRepository::class => [
+                'single' => true,
+                'class' => ReportPackRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            DataSourceRepository::class => [
+                'single' => true,
+                'class' => DataSourceRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            DataRepository::class => [
+                'single' => true,
+                'class' => DataRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            DataStoreRepository::class => [
+                'single' => true,
+                'class' => DataStoreRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
             // Models
             Contract::class => [
                 'single' => false,
@@ -421,7 +480,40 @@ class Sdk implements ContainerAccessorInterface
                     'repository' => \mr_srv_arg(InvalidationRepository::class),
                     'data' => []
                 ]
-            ]
+            ],
+            //QOS
+            Data::class => [
+                    'single' => false,
+                    'class' => Data::class,
+                    'arguments' => [
+                        'repository' => \mr_srv_arg(DataRepository::class),
+                        'data' => []
+                    ]
+            ],
+            DataSource::class => [
+                'single' => false,
+                'class' => DataSource::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(DataSourceRepository::class),
+                    'data' => []
+                ]
+            ],
+            DataStore::class => [
+                'single' => false,
+                'class' => DataStore::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(QOSRepository::class),
+                    'data' => []
+                ]
+            ],
+            ReportPack::class => [
+                'single' => false,
+                'class' => ReportPack::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(ReportPackRepository::class),
+                    'data' => []
+                ]
+            ],
         ];
 
         $this->container = new Container($definitions);
@@ -490,6 +582,10 @@ class Sdk implements ContainerAccessorInterface
     protected function _getFastPurgeService()
     {
         return $this->_get(FastPurgeService::class);
+    }
+    protected function _getQosService()
+    {
+        return $this->_get(QosService::class);
     }
 
     /**

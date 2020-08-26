@@ -4,10 +4,9 @@ namespace Akamai\Sdk\Model\PAPI;
 
 use Akamai\Sdk\Repository\PAPI\ProductRepository;
 
-
 class Contract extends \Mr\Bootstrap\Model\BaseModel
 {
-    static protected $idFieldName = 'contractId';
+    protected static $idFieldName = 'contractId';
 
     /**
      * List of products

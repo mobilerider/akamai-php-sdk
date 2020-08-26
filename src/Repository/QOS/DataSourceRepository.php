@@ -2,7 +2,7 @@
 
 namespace Akamai\Sdk\Repository\QOS;
 
-use Akamai\Sdk\Model\MSL\DataSource;
+use Akamai\Sdk\Model\QOS\DataSource;
 
 class DataSourceRepository extends QOSRepository
 {

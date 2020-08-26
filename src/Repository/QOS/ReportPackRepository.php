@@ -2,9 +2,10 @@
 
 namespace Akamai\Sdk\Repository\QOS;
 
-use Akamai\Sdk\Model\MSL\ReportPack;
+use Akamai\Sdk\Model\QOS\ReportPack;
+use Akamai\Sdk\Repository\QOS\QOSRepository;
 
-class ReportpackRepository extends QOSRepository
+class ReportPackRepository extends QOSRepository
 {
     protected $version = 'v2';
 

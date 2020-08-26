@@ -2,10 +2,14 @@
 
 namespace Akamai\Sdk\Model\QOS;
 
+use Akamai\Sdk\Service\QosService;
+
 class Data extends \Mr\Bootstrap\Model\BaseModel
 {
     public static function getResource()
     {
-        return 'data';
+        $reportId = QosService::$reportId;
+        
+        return "report-packs/{$reportId}/data";
     }
 }

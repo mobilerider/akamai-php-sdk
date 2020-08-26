@@ -2,7 +2,6 @@
 
 namespace Akamai\Sdk\Service;
 
-
 use Akamai\Sdk\Repository\PAPI\PropertyRepository;
 use Mr\Bootstrap\Interfaces\HttpDataClientInterface;
 use Mr\Bootstrap\Service\BaseHttpService;
@@ -45,7 +44,7 @@ class PAPIService extends BaseHttpService
      * List of contracts
      *
      * @param boolean $refresh
-     * 
+     *
      * @return Contract[]
      */
     public function getContracts($refresh = false)
@@ -63,7 +62,7 @@ class PAPIService extends BaseHttpService
      * List of groups
      *
      * @param boolean $refresh
-     * 
+     *
      * @return Group[]
      */
     public function getGroups($refresh = false)
@@ -131,7 +130,7 @@ class PAPIService extends BaseHttpService
      * Returns a new instance of CpCode model
      *
      * @param array $data
-     * 
+     *
      * @return CpCode
      */
     public function createCpCode(array $data, $contractId = null, $groupId = null)
@@ -140,7 +139,8 @@ class PAPIService extends BaseHttpService
         $groupId = $groupId ?: $this->groupId;
 
         return $this->_get(
-            CpCodeRepository::class, [
+            CpCodeRepository::class,
+            [
                 "options" => compact("contractId", "groupId")
             ]
         )->create($data);
