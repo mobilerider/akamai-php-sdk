@@ -34,6 +34,11 @@ use Akamai\Sdk\Model\CCU\Invalidation;
 use Akamai\Sdk\Repository\MSL\v3\CpCodeRepositoryMSLv3;
 use Akamai\Sdk\Model\MSL\v3\CpCodeMSLv3;
 use Akamai\Sdk\Service\MSLService;
+use Akamai\Sdk\Repository\NS\UploadAccountRepository;
+use Akamai\Sdk\Model\NS\UploadAccount;
+use Akamai\Sdk\Service\NSService;
+use Akamai\Sdk\Repository\NS\StorageGroupRepository;
+use Akamai\Sdk\Model\NS\StorageGroup;
 use Akamai\Sdk\Repository\MSL\CpCodeRepository;
 use Akamai\Sdk\Model\MSL\CpCode;
 use Akamai\Sdk\Repository\MSL\MSLContractRepository;
@@ -61,6 +66,7 @@ use Akamai\Sdk\Model\QOS\DataStore;
  * SDK
  *
  * @method static PAPIService      getPAPIService($contractId = null, $groupId = null)
+ * @method static NSService        getNSService()
  * @method static MSLService       getMSLService()
  * @method static MSLv3Service     getMSLv3Service()
  * @method static FastPurgeService getFastPurgeService()
@@ -171,6 +177,14 @@ class Sdk implements ContainerAccessorInterface
                     'options' => []
                 ]
             ],
+            NSService::class => [
+                'single' => true,
+                'class' => NSService::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => []
+                ]
+            ],
             FastPurgeService::class => [
                 'single' => true,
                 'class' => FastPurgeService::class,
@@ -257,7 +271,7 @@ class Sdk implements ContainerAccessorInterface
                 'single' => true,
                 'class' => GroupRepository::class,
                 'arguments' => [
-                    'client' => \mr_srv_arg('http_rest_client'),
+                    'client' => \mr_srv_arg('http_json_client'),
                     'options' => $repositoryOptions
                 ]
             ],
@@ -306,6 +320,22 @@ class Sdk implements ContainerAccessorInterface
                 'class' => EventRepositoryMSLv3::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_xml_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            UploadAccountRepository::class => [
+                'single' => false,
+                'class' => UploadAccountRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            StorageGroupRepository::class => [
+                'single' => false,
+                'class' => StorageGroupRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
                     'options' => $repositoryOptions
                 ]
             ],
@@ -471,8 +501,23 @@ class Sdk implements ContainerAccessorInterface
                     'repository' => \mr_srv_arg(EventRepositoryMSLv3::class),
                     'data' => []
                 ]
-                ],
-            
+            ],
+            UploadAccount::class => [
+                'single' => false,
+                'class' => UploadAccount::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(UploadAccountRepository::class),
+                    'data' => []
+                ]
+            ],
+            StorageGroup::class => [
+                'single' => false,
+                'class' => StorageGroup::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(StorageGroupRepository::class),
+                    'data' => []
+                ]
+            ],
             Invalidation::class => [
                 'single' => false,
                 'class' => Invalidation::class,
@@ -579,6 +624,12 @@ class Sdk implements ContainerAccessorInterface
     {
         return $this->_get(MSLService::class);
     }
+
+    protected function _getNSService()
+    {
+        return $this->_get(NSService::class);
+    }
+
     protected function _getFastPurgeService()
     {
         return $this->_get(FastPurgeService::class);
