@@ -18,9 +18,14 @@ abstract class QOSRepository extends AbstractAkamaiRepository
             mr_plural($resource)
         );
     }
-
+    
+    public function parseOne(array $data, array &$metadata = [])
+    {
+        return $data;
+    }
     public function parseMany(array $data, array &$metadata = [])
     {
+      
         return $data;
     }
 }

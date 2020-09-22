@@ -19,14 +19,14 @@ class QosService extends BaseHttpService
     {
         return $this->_get(
             ReportPackRepository::class
-        )->all();
+        )->all('', true);
     }
 
     public function getReportPack($id)
     {
-        $name = $this->_get(
+        return $this->_get(
             ReportPackRepository::class
-        )->get($id);
+        )->get($id, '', true);
     }
 
     public function getDataStores($reportId)

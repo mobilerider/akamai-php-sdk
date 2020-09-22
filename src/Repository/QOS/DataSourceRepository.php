@@ -15,9 +15,4 @@ class DataSourceRepository extends QOSRepository
     {
         return DataSource::class;
     }
-
-    public function parseMany(array $data, array &$metadata = [])
-    {
-        return $data[mr_plural($this->getResource())];
-    }
 }
