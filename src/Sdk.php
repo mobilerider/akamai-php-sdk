@@ -30,6 +30,7 @@ use Akamai\Sdk\Model\PAPI\Contract;
 use Akamai\Sdk\Repository\PAPI\ProductRepository;
 use Akamai\Sdk\Model\PAPI\Product;
 use Akamai\Sdk\Http\AkamaiQueryBuilder;
+use Akamai\Sdk\Model\CCU\DeleteCCU;
 use Akamai\Sdk\Model\CCU\Invalidation;
 use Akamai\Sdk\Repository\MSL\v3\CpCodeRepositoryMSLv3;
 use Akamai\Sdk\Model\MSL\v3\CpCodeMSLv3;
@@ -61,6 +62,8 @@ use Akamai\Sdk\Model\QOS\Data;
 use Akamai\Sdk\Model\QOS\DataSource;
 use Akamai\Sdk\Model\QOS\DataReportPack;
 use Akamai\Sdk\Model\QOS\DataStore;
+use Akamai\Sdk\Model\QOS\ReportPack;
+use Akamai\Sdk\Repository\CCU\DeleteCCURepository;
 
 /**
  * SDK
@@ -69,6 +72,7 @@ use Akamai\Sdk\Model\QOS\DataStore;
  * @method static NSService        getNSService()
  * @method static MSLService       getMSLService()
  * @method static MSLv3Service     getMSLv3Service()
+ * @method static QosService       getQosService()
  * @method static FastPurgeService getFastPurgeService()
  * @method static Contract[]       getContracts
  * @method static Stream[]         getStreams
@@ -98,7 +102,8 @@ class Sdk implements ContainerAccessorInterface
         $httpDefaultOptions = [
             'base_uri' => $host,
             // 'handler' => $stack,
-            'timeout' => '120.0'
+            'timeout' => '120.0',
+            'debug' => true
         ];
 
         $httpRestOptions = $httpDefaultOptions + array_merge_recursive(
@@ -339,9 +344,18 @@ class Sdk implements ContainerAccessorInterface
                     'options' => $repositoryOptions
                 ]
             ],
+            // CCU
             InvalidationRepository::class => [
                 'single' => true,
                 'class' => InvalidationRepository::class,
+                'arguments' => [
+                    'client' => \mr_srv_arg('http_json_client'),
+                    'options' => $repositoryOptions
+                ]
+            ],
+            DeleteCCURepository::class => [
+                'single' => true,
+                'class' => DeleteCCURepository::class,
                 'arguments' => [
                     'client' => \mr_srv_arg('http_json_client'),
                     'options' => $repositoryOptions
@@ -518,11 +532,20 @@ class Sdk implements ContainerAccessorInterface
                     'data' => []
                 ]
             ],
+            //CCU
             Invalidation::class => [
                 'single' => false,
                 'class' => Invalidation::class,
                 'arguments' => [
                     'repository' => \mr_srv_arg(InvalidationRepository::class),
+                    'data' => []
+                ]
+            ],
+            DeleteCCU::class => [
+                'single' => false,
+                'class' => DeleteCCU::class,
+                'arguments' => [
+                    'repository' => \mr_srv_arg(DeleteCCURepository::class),
                     'data' => []
                 ]
             ],

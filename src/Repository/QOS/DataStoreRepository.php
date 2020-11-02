@@ -15,5 +15,9 @@ class DataStoreRepository extends QOSRepository
     {
         return DataStore::class;
     }
-  
+
+    public function parseMany(array $data, array &$metadata = [])
+    {
+        return $data;
+    }
 }

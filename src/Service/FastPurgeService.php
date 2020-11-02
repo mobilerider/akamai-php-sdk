@@ -2,6 +2,7 @@
 
 namespace Akamai\Sdk\Service;
 
+use Akamai\Sdk\Model\CCU\DeleteCCU;
 use Akamai\Sdk\Model\CCU\Invalidation;
 use Mr\Bootstrap\Service\BaseHttpService;
 
@@ -21,5 +22,21 @@ class FastPurgeService extends BaseHttpService
         $invalidate->save();
 
         return $invalidate;
+    }
+
+    /**
+     * Returns created CCU delete request
+     *
+     * @return Invalidation
+     */
+    public function deleteByUrl(array $urls)
+    {
+        $deleteCCU = $this->_get(
+            DeleteCCU::class
+        );
+        $deleteCCU->fill(["objects" => $urls]);
+        $deleteCCU->save();
+
+        return $deleteCCU;
     }
 }

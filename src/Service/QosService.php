@@ -58,7 +58,7 @@ class QosService extends BaseHttpService
         return $name->all();
     }
 
-    public function getData($reportId, $dimensions, $metrics, $startDate, $endDate, array $params = [])
+    public function getData($reportId, array $dimensions, array $metrics, $startDate, $endDate, array $params = [])
     {
         $repository = $this->getRepository(DataRepository::class);
         
@@ -67,8 +67,8 @@ class QosService extends BaseHttpService
         return $repository->all(
             array_merge(
                 [
-                'dimensions' => $dimensions,
-                'metrics' => $metrics,
+                'dimensions' => implode(',', $dimensions),
+                'metrics' => implode(',', $metrics),
                 'startDate' => $startDate,
                 'endDate' => $endDate,
                 ],

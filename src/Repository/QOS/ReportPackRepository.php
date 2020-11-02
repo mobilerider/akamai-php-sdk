@@ -16,5 +16,9 @@ class ReportPackRepository extends QOSRepository
     {
         return ReportPack::class;
     }
-    
+
+    public function parseMany(array $data, array &$metadata = [])
+    {
+        return $data;
+    }
 }

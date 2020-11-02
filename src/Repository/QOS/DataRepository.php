@@ -26,4 +26,9 @@ class DataRepository extends QOSRepository
             $resource
         );
     }
+
+    public function parseMany(array $data, array &$metadata = [])
+    {mr_dd($data);
+        return $data;
+    }
 }
