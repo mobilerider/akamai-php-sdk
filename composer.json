@@ -27,6 +27,10 @@
     "repositories": [
         {
             "type": "vcs",
+            "url": "https://github.com/m1ch3lp3r3z/AkamaiOPEN-edgegrid-php-client"
+        },
+        {
+            "type": "vcs",
             "no-api": true,
             "url": "https://github.com/mobilerider/mobilerider-php-bootstrap.git"
         },
@@ -38,7 +42,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "akamai-open/edgegrid-client": "~0.3.0",
+        "akamai-open/edgegrid-client": "dev-master",
         "mobilerider/mobilerider-php-bootstrap": "*",
         "beberlei/assert": "^3.1"
     },
